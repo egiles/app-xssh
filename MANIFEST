@@ -1,0 +1,7 @@
+bin/xssh
+Changes
+Makefile.PL
+MANIFEST
+README
+t/90.pod.t
+t/91.podcoverage.t

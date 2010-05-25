@@ -1,0 +1,141 @@
+#! /usr/bin/perl
+
+=head1 NAME
+
+xssh - A customisable X terminal emulator
+
+=head1 SYNOPSIS
+
+	xssh HOST
+	xssh --sethostattr HOST ATTRIBUTE VALUE
+	xssh --setextraattr NAME ATTRIBUTE VALUE
+
+=head1 DESCRIPTION
+
+This program will allow you to ssh to a remote host inside a new X Terminal window (like XTerm).  
+
+The idea is that you can configure it in such a way that every time you connect to a particular host, the terminal window will be customised in the same manner.  For example, you may wish to configure 'prodserver' so that it the terminal window background is a redish colour - reminding you to tread very carefully...
+
+=head1 EXAMPLES
+
+=head1 AUTHOR
+
+Evan Giles <egiles@capn.org>.
+
+=head1 COPYRIGHT
+
+Copyright 2010 Evan Giles.
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+=cut
+
+use strict;
+use warnings;
+
+## Remove this line when we install properly...
+use lib "$ENV{HOME}/data/git/X11-Terminal/lib";
+
+use Config::General;
+use Getopt::Long;
+use Pod::Usage;
+
+
+sub configFilename() {
+  return "$ENV{HOME}/.xsshrc";
+}
+
+sub openConfig {
+  my $filename = configFilename();
+
+  if ( ! -f $filename ) {
+    if ( ! open(my $temp, ">", $filename) ) {
+      return;
+    }
+  }
+
+  return new Config::General($filename);
+}
+
+sub writeConfig {
+  my ($path,$attr,$value) = @_;
+
+  my $config = readConfig();
+
+  # Set $config->{path}{path}{$attr} to $value
+  my $curr = $config;
+  for my $key ( @$path ) {
+    if ( ! defined($curr->{$key}) ) {
+      $curr->{$key} = {};
+    }
+    $curr = $curr->{$key};
+  }
+  $curr->{$attr} = $value;
+
+  my $conf = openConfig();
+  $conf->save_file(configFilename(),$config);
+}
+
+
+sub readConfig {
+  my $conf = openConfig();
+  my $config = { $conf->getall() };
+  return $config;
+}
+
+sub getTerminalOptions {
+  my ($host) = @_;
+
+  my $config = readConfig();
+
+  my $options = $config->{hosts}->{$host} || $config->{hosts}->{default};
+
+  if ( my $extra = delete $options->{extra} ) {
+    $options = { %$options, %{$config->{extra}->{$extra}} };
+  }
+
+  $options->{host} = $host;
+  return($options);
+}
+
+sub launchTerminal {
+  my ($options) = @_;
+
+  my $type = $options->{type} || "XTerm";
+  my $class = "X11::Terminal::$type";
+  eval "require $class";
+  my $term = $class->new(%$options);
+  $term->launch();
+}
+
+sub main {
+  my $sethost;
+  my $setextra;
+  GetOptions(
+    'sethostattr' => \$sethost,
+    'setextraattr' => \$setextra,
+  ) or pod2usage(1);
+  
+  if ( $sethost ) {
+    my ($name,$attr,$value) = @ARGV;
+    if ( ! ($name && $attr && $value) ) {
+      pod2usage(1);
+    }
+    return writeConfig(["hosts",$name],$attr,$value);
+  }
+  if ( $setextra ) {
+    my ($name,$attr,$value) = @ARGV;
+    if ( ! ($name && $attr && $value) ) {
+      pod2usage(1);
+    }
+    return writeConfig(["extra",$name],$attr,$value);
+  }
+
+  if ( my ($host) = @ARGV ) {
+    my $options = getTerminalOptions($host);
+    launchTerminal($options);;
+  }
+}
+
+main() unless caller;
+1
