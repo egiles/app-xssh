@@ -1,0 +1,18 @@
+Source: libapp-xssh-perl
+Section: perl
+Priority: optional
+Build-Depends: debhelper (>= 5)
+Build-Depends-Indep: perl (>= 5.6.10-12)
+Maintainer: Evan Giles <evan@catalyst.net.nz>
+Standards-Version: 3.8.0
+Homepage: http://search.cpan.org/dist/App-xssh/
+
+Package: libapp-xssh-perl
+Architecture: all
+Depends: ${perl:Depends}, ${misc:Depends}, libconfig-general-perl (>= 2.40)
+Description:  A customisable X terminal emulator
+ This program will allow you to ssh to a remote host inside a new X Terminal window (like XTerm).
+ .
+ The idea is that you can configure it in such a way that every time you connect to a particular host, the terminal window will be customised in the same manner.  For example, you may wish to configure 'prodserver' so that it the terminal window background is a redish colour - reminding you to tread very carefully...
+ .
+ This description was automagically extracted from the module by dh-make-perl.

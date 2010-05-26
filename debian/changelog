@@ -1,0 +1,5 @@
+libapp-xssh-perl (0.1-1) unstable; urgency=low
+
+  * Initial Release.
+
+ -- Evan Giles <evan@catalyst.net.nz>  Wed, 26 May 2010 11:43:10 +1200
