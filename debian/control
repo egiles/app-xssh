@@ -9,7 +9,7 @@ Homepage: http://search.cpan.org/dist/App-xssh/
 
 Package: libapp-xssh-perl
 Architecture: all
-Depends: ${perl:Depends}, ${misc:Depends}, libconfig-general-perl (>= 2.40)
+Depends: ${perl:Depends}, ${misc:Depends}, libconfig-general-perl, libx11-terminal-perl
 Description:  A customisable X terminal emulator
  This program will allow you to ssh to a remote host inside a new X Terminal window (like XTerm).
  .

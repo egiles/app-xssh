@@ -2,37 +2,6 @@
 
 use strict;
 use warnings;
-our $VERSION = 0.1;
-
-=head1 NAME
-
-xssh - A customisable X terminal emulator
-
-=head1 SYNOPSIS
-
-	xssh HOST
-	xssh --sethostattr HOST ATTRIBUTE VALUE
-	xssh --setextraattr NAME ATTRIBUTE VALUE
-
-=head1 DESCRIPTION
-
-This program will allow you to ssh to a remote host inside a new X Terminal window (like XTerm).  
-
-The idea is that you can configure it in such a way that every time you connect to a particular host, the terminal window will be customised in the same manner.  For example, you may wish to configure 'prodserver' so that it the terminal window background is a redish colour - reminding you to tread very carefully...
-
-=head1 EXAMPLES
-
-=head1 AUTHOR
-
-Evan Giles <egiles@capn.org>.
-
-=head1 COPYRIGHT
-
-Copyright 2010 Evan Giles.
-
-This program is free software; you can redistribute it and/or modify it
-under the same terms as Perl itself.
-=cut
 
 ## Remove this line when we install properly...
 use lib "$ENV{HOME}/data/git/X11-Terminal/lib";
@@ -41,6 +10,7 @@ use Config::General;
 use Getopt::Long;
 use Pod::Usage;
 
+our $VERSION = 0.1;
 
 sub configFilename() {
   return "$ENV{HOME}/.xsshrc";
@@ -89,7 +59,9 @@ sub getTerminalOptions {
 
   my $config = readConfig();
 
-  my $options = $config->{hosts}->{$host} || $config->{hosts}->{default};
+  my $options = $config->{hosts}->{DEFAULT};
+
+  $options = { %$options, %{$config->{hosts}->{$host}} };
 
   if ( my $extra = delete $options->{extra} ) {
     $options = { %$options, %{$config->{extra}->{$extra}} };
@@ -140,3 +112,83 @@ sub main {
 
 main() unless caller;
 1
+
+__END__
+=head1 NAME
+
+xssh - A customisable X terminal emulator
+
+=head1 SYNOPSIS
+
+	xssh HOST
+	xssh --sethostattr HOST ATTRIBUTE VALUE
+	xssh --setextraattr NAME ATTRIBUTE VALUE
+
+=head1 DESCRIPTION
+
+This program will allow you to ssh to a remote host inside a new X Terminal window (like XTerm).  
+
+The idea is that you can configure it in such a way that every time you connect to a particular host, the terminal window will be customised in the same manner.  For example, you may wish to configure 'prodserver' so that it the terminal window background is a redish colour - reminding you to tread very carefully...
+
+=head1 EXAMPLES
+
+First, you may like to define some defualts that will apply to all the remote servers
+you might log in to.
+
+	xssh --sethostattr DEFAULT scrollback 1024
+	xssh --sethostattr DEFAULT foreground blue
+	xssh --sethostattr DEFAULT background white
+
+Then you may like to override those defaults for some specific hosts.
+
+	xssh --sethostattr favourite foreground green
+	xssh --sethostattr favourite background black
+	xssh --sethostattr favourite geometry 128x70
+
+You may then get bored with setting all attributes for all hosts, so you
+might want to set up some "extra" attributes.
+
+	xssh --setextraattr prod foreground black
+	xssh --setextraattr prod background IndianRed
+
+You would then define which hosts take those extra attributes.
+
+	xssh --sethostattr important extra prod
+
+FINALLY, you can use xssh to log in to those servers
+
+	# Log in to the server "important" - you'll get a new xterm
+	# window with a redish background, black text, 1024 lines of
+	# scrollback
+	xssh important
+		
+	# Log in to the server "unknown" - you'll get a new xterm window
+	# with a # white background, blue text, 1024 lines of scrollback
+	xssh unknown
+	
+	# Log in to the server "favourite" - you'll get a new xterm
+	# window with a black background, green text, 1024 lines of
+	# scrollback, and a larger terminal
+	xssh favourite
+
+=head1 FILES
+
+=over
+
+=item F<$HOME/.xsshrc>
+
+This file contains all the configuration for xssh.  It is in L<Config::General> format.
+
+=back
+
+=head1 AUTHOR
+
+Evan Giles <egiles@capn.org>.
+
+=head1 COPYRIGHT
+
+Copyright 2010 Evan Giles.
+
+This program is free software; you can redistribute it and/or modify it
+under the same terms as Perl itself.
+=cut

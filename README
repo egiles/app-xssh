@@ -1,0 +1,40 @@
+DESCRIPTION
+
+  App::Xssh
+    This program will allow you to ssh to a remote host inside a new
+    X Terminal window (like XTerm).  
+
+
+PREREQUISITES
+
+  App::Xssh requires at least perl 5.6.0 and these other modules and libraries:
+
+    Config::General
+    X1::Terminal
+
+
+BUILDING/INSTALLING
+
+  Once the archive is unpacked, use these commands:
+
+      perl Makefile.PL
+      make
+      make test
+      make install
+
+
+SUPPORT AND DOCUMENTATION
+
+  Please send any feedback to the author: egiles@cpan.org
+
+  See 'Changes' for a detailed history.
+
+  See perldoc App::Xssh
+
+
+COPYRIGHT AND LICENCE
+
+  Copyright 2010 Evan Giles <egiles@cpan.org>.
+
+  This program is free software; you can redistribute it
+  and/or modify it under the same terms as Perl itself.
