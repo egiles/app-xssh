@@ -3,57 +3,14 @@
 use strict;
 use warnings;
 
-use Config::General;
 use Getopt::Long;
 use Pod::Usage;
-
-our $VERSION = 0.1;
-
-sub configFilename() {
-  return "$ENV{HOME}/.xsshrc";
-}
-
-sub openConfig {
-  my $filename = configFilename();
-
-  if ( ! -f $filename ) {
-    if ( ! open(my $temp, ">", $filename) ) {
-      return;
-    }
-  }
-
-  return Config::General->new($filename);
-}
-
-sub writeConfig {
-  my ($path,$attr,$value) = @_;
-
-  my $config = readConfig();
-
-  my $curr = $config;
-  for my $key ( @$path ) {
-    if ( ! defined($curr->{$key}) ) {
-      $curr->{$key} = {};
-    }
-    $curr = $curr->{$key};
-  }
-  $curr->{$attr} = $value;
-
-  my $conf = openConfig();
-  $conf->save_file(configFilename(),$config);
-}
-
-
-sub readConfig {
-  my $conf = openConfig();
-  my $config = { $conf->getall() };
-  return $config;
-}
+use App::Xssh;
 
 sub getTerminalOptions {
-  my ($host) = @_;
+  my ($xssh,$host) = @_;
 
-  my $config = readConfig();
+  my $config = $xssh->readConfig();
 
   my $options = $config->{hosts}->{DEFAULT} || {};
 
@@ -89,29 +46,32 @@ sub main {
     'setextraattr' => \$setextra,
   ) or pod2usage(1);
   
+  my $xssh = App::Xssh->new();
   if ( $sethost ) {
     my ($name,$attr,$value) = @ARGV;
     if ( ! ($name && $attr && $value) ) {
       pod2usage(1);
     }
-    return writeConfig(["hosts",$name],$attr,$value);
+    $xssh->addToConfig(["hosts",$name],$attr,$value);
+    return $xssh->saveConfig();
   }
   if ( $setextra ) {
     my ($name,$attr,$value) = @ARGV;
     if ( ! ($name && $attr && $value) ) {
       pod2usage(1);
     }
-    return writeConfig(["extra",$name],$attr,$value);
+    $xssh->addToConfig(["extra",$name],$attr,$value);
+    return $xssh->saveConfig();
   }
 
   if ( my ($host) = @ARGV ) {
-    my $options = getTerminalOptions($host);
+    my $options = getTerminalOptions($xssh,$host);
     launchTerminal($options);;
   }
 }
 
 main() unless caller;
-1
+1;
 
 __END__
 
@@ -133,8 +93,8 @@ The idea is that you can configure it in such a way that every time you connect 
 
 =head1 EXAMPLES
 
-First, you may like to define some defualts that will apply to all the remote servers
-you might log in to.
+First, you may like to define some defualts that will apply to all the remote
+servers you might log in to.
 
 	xssh --sethostattr DEFAULT scrollback 1024
 	xssh --sethostattr DEFAULT foreground blue

@@ -1,8 +1,11 @@
 DESCRIPTION
 
   App::Xssh
-    This program will allow you to ssh to a remote host inside a new
-    X Terminal window (like XTerm).  
+    Library to support reading and writing to the config file
+
+    bin/xssh
+      This program will allow you to ssh to a remote host inside a new
+      X Terminal window (like XTerm).  
 
 
 PREREQUISITES
@@ -21,15 +24,6 @@ BUILDING/INSTALLING
       make
       make test
       make install
-
-
-SUPPORT AND DOCUMENTATION
-
-  Please send any feedback to the author: egiles@cpan.org
-
-  See 'Changes' for a detailed history.
-
-  See perldoc App::Xssh
 
 
 COPYRIGHT AND LICENCE

@@ -13,7 +13,7 @@ WriteMakefile(
                          'Getopt::Long' => '2.37',
                          'Pod::Usage' => '1.35',
                     },
-    'VERSION_FROM'  => 'bin/xssh',
+    'VERSION_FROM'  => 'lib/App/Xssh.pm',
     'EXE_FILES'     => [ 'bin/xssh' ],
     'dist'          => { COMPRESS=>'gzip', SUFFIX=>'gz' },
 );
