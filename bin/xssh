@@ -52,7 +52,7 @@ sub main {
     if ( ! ($name && $attr && $value) ) {
       pod2usage(1);
     }
-    $xssh->addToConfig(["hosts",$name],$attr,$value);
+    $xssh->addToConfig(["hosts",$name,$attr],$value);
     return $xssh->saveConfig();
   }
   if ( $setextra ) {
@@ -60,7 +60,7 @@ sub main {
     if ( ! ($name && $attr && $value) ) {
       pod2usage(1);
     }
-    $xssh->addToConfig(["extra",$name],$attr,$value);
+    $xssh->addToConfig(["extra",$name,$attr],$value);
     return $xssh->saveConfig();
   }
 

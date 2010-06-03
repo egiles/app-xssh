@@ -1,12 +1,14 @@
 package App::Xssh;
 
+use strict;
+use warnings;
+
 use Config::General;
-use Moose;
 
 our $VERSION = 0.1;
 =head1 NAME
 
-App::Xssh - library module to support bin/xssh
+App::Xssh - Encapsulates the configuration for xssh - using Config::General
 
 =head1 SYNOPSYS
 
@@ -15,7 +17,7 @@ App::Xssh - library module to support bin/xssh
 	my $xssh = App:Xssh->new();
 	my $data = $xssh->readConfig();
 	
-	$xssh->addToConfig(["location","path"],"setting","value");
+	$xssh->addToConfig(["location","path","setting"],"value");
 	$xssh->saveConfig();
 =cut
 
@@ -23,7 +25,16 @@ App::Xssh - library module to support bin/xssh
 =head1 METHODS
 
 =over
+
+=item new()
+
+Construcor, just used to provide an object with access to the methods
 =cut
+sub new {
+   my $class = shift;
+   return bless {}, $class;
+}
+
 sub _configFilename {
   return "$ENV{HOME}/.xsshrc";
 }
@@ -46,6 +57,8 @@ sub _openConfig {
 }
 
 =item readConfig()
+
+Reads the config file into memory, returns a hashref pointing to the config data
 =cut
 sub readConfig {
   my ($self) = @_;
@@ -58,24 +71,32 @@ sub readConfig {
   return $self->{data};
 }
 
-=item addToConfig()
+=item addToConfig($path,$value)
+
+Adds a data to the existing config data - in memory.   
+
+B<$path> is an arrayref to the location of the atrribute to be stored.
+
+B<$value> is a string to be stored at that location.
 =cut
 sub addToConfig {
-  my ($self,$path,$attr,$value) = @_;
+  my ($self,$path,$value) = @_;
+
+  my $attr = pop @$path;
 
   my $config = $self->readConfig();
-
-  my $curr = $config;
   for my $key ( @$path ) {
-    if ( ! defined($curr->{$key}) ) {
-      $curr->{$key} = {};
+    if ( ! defined($config->{$key}) ) {
+      $config->{$key} = {};
     }
-    $curr = $curr->{$key};
+    $config = $config->{$key};
   }
-  $curr->{$attr} = $value;
+  $config->{$attr} = $value;
 }
 
 =item saveConfig()
+
+Writes the current config data back to a config file on disk.  Completely overwrites the existinng file.
 =cut
 sub saveConfig{
   my ($self) = @_;
@@ -83,6 +104,7 @@ sub saveConfig{
   my $data = $self->readConfig();
   my $conf = $self->_openConfig();
   $conf->save_file(_configFilename(),$data);
+  return 1;
 }
 
 =back

@@ -13,7 +13,7 @@ PREREQUISITES
   App::Xssh requires at least perl 5.6.0 and these other modules and libraries:
 
     Config::General
-    X1::Terminal
+    X11::Terminal
 
 
 BUILDING/INSTALLING
