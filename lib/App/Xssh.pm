@@ -21,7 +21,6 @@ App::Xssh - Encapsulates the configuration for xssh - using Config::General
 	$xssh->saveConfig();
 =cut
 
-
 =head1 METHODS
 
 =over
@@ -75,9 +74,17 @@ sub readConfig {
 
 Adds a data to the existing config data - in memory.   
 
-B<$path> is an arrayref to the location of the atrribute to be stored.
+=over
 
-B<$value> is a string to be stored at that location.
+=item $path
+
+An arrayref to the location of the atrribute to be stored.
+
+=item $value
+
+A string to be stored at that location.
+
+=back
 =cut
 sub addToConfig {
   my ($self,$path,$value) = @_;
@@ -109,7 +116,8 @@ sub saveConfig{
 
 =back
 
-=head1 COPYRIGHT
+=head1 COPYRIGHT & LICENSE
+
 Copyright 2010 Evan Giles.
 
 This module is free software; you can redistribute it and/or modify it
