@@ -38,12 +38,31 @@ sub launchTerminal {
   $term->launch();
 }
 
+sub showConfig {
+  my ($xssh) = @_;
+
+  my $data = $xssh->readConfig();
+
+  my $configString = "";
+  for my $type ( reverse sort keys %{$data} ) {
+    for my $entity ( sort keys %{$data->{$type}} ) {
+      for my $key ( sort keys %{$data->{$type}->{$entity}} ) {
+        my $value =  $data->{$type}->{$entity}->{$key};
+        my $output = sprintf("%6s\t%20s\t%10s: %s\n", $type,$entity,$key,$value);
+        $configString = $configString . $output;
+      }
+    }
+  }
+  return $configString;
+}
 sub main {
   my $sethost;
   my $setextra;
+  my $showconfig;
   GetOptions(
     'sethostattr' => \$sethost,
     'setextraattr' => \$setextra,
+    'showconfig' => \$showconfig,
   ) or pod2usage(1);
   
   my $xssh = App::Xssh->new();
@@ -62,6 +81,9 @@ sub main {
     }
     $xssh->addToConfig(["extra",$name,$attr],$value);
     return $xssh->saveConfig();
+  }
+  if ( $showconfig ) {
+    print showConfig($xssh);
   }
 
   if ( my ($host) = @ARGV ) {
@@ -84,6 +106,7 @@ xssh - A customisable X terminal emulator
 	xssh HOST
 	xssh --sethostattr HOST ATTRIBUTE VALUE
 	xssh --setextraattr NAME ATTRIBUTE VALUE
+	xssh --showconfig
 
 =head1 DESCRIPTION
 
