@@ -1,3 +1,9 @@
+libapp-xssh-perl (0.3) jaunty; urgency=low
+
+  * New upstream version
+
+ -- Evan Giles <evan@giles.net.nz>  Thu, 08 Jul 2010 22:22:34 +1200
+
 libapp-xssh-perl (0.2) unstable; urgency=low
 
   * New upstream version

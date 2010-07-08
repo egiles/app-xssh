@@ -11,11 +11,19 @@ require_ok("bin/xssh");
 
 # Create a temporary config file, and mess with it
 $ENV{HOME} = File::Temp::tempdir( CLEANUP => 1 );
-ok(system("bin/xssh")==0, "run script no params");
-ok(system("bin/xssh --setextraattr extra profile red")==0, "setextra profile");
-ok(system("bin/xssh --sethostattr testhost foreground red")==0, "sethost foreground");
-ok(system("bin/xssh --sethostattr DEFAULT background red")==0, "sethost default background");
-ok(system("bin/xssh --sethostattr testhost extra extra")==0, "sethost foreground");
+@ARGV = qw();
+ok(!main(), "run script no params");
+
+@ARGV = qw(--setextraattr extra profile red);
+ok(main(), "setextra profile");
+
+@ARGV = qw(--sethostattr testhost foreground red);
+ok(main(), "sethost foreground");
+
+@ARGV = qw(--sethostattr DEFAULT background red);
+ok(main(), "sethost default background");
+@ARGV = qw(--sethostattr testhost extra extra);
+ok(main(), "sethost foreground");
 
 # Test whether the config options taken hold
 my $xssh = App::Xssh->new();

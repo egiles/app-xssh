@@ -57,6 +57,7 @@ sub showConfig {
   }
   return $configString;
 }
+
 sub main {
   my $sethost;
   my $setextra;
@@ -74,7 +75,8 @@ sub main {
       pod2usage(1);
     }
     $xssh->addToConfig(["hosts",$name,$attr],$value);
-    return $xssh->saveConfig();
+    $xssh->saveConfig();
+    return 1;
   }
   if ( $setextra ) {
     my ($name,$attr,$value) = @ARGV;
@@ -82,7 +84,8 @@ sub main {
       pod2usage(1);
     }
     $xssh->addToConfig(["extra",$name,$attr],$value);
-    return $xssh->saveConfig();
+    $xssh->saveConfig();
+    return 1;
   }
   if ( $showconfig ) {
     print showConfig($xssh);
@@ -90,7 +93,7 @@ sub main {
 
   if ( my ($host) = @ARGV ) {
     my $options = getTerminalOptions($xssh,$host);
-    launchTerminal($options);;
+    return launchTerminal($options);;
   }
 }
 
