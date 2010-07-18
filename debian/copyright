@@ -16,16 +16,6 @@ Copyright 2010 Evan Giles.
 
 This program is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
-=cut
-
-## Remove this line when we install properly...
-use lib "$ENV{HOME}/data/git/X11-Terminal/lib";
-
-use Config::General;
-use Getopt::Long;
-use Pod::Usage;
-
-
 
 Perl is distributed under your choice of the GNU General Public License or
 the Artistic License.  On Debian GNU/Linux systems, the complete text of the
