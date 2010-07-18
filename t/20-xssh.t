@@ -34,7 +34,7 @@ ok($options->{profile} eq "red", "extra option found");
 
 # test if showConfig returns the same information
 my $str = showConfig($xssh);
-ok($str =~ m/testhost.*foreground.*red/, "showconfig() contains similar data");
+ok($str =~ m/foreground.*red/, "showconfig() contains similar data");
 
 # Just in case all the above isn't really testing anything
 ok(!($options->{foreground} eq "blue"), "control test");

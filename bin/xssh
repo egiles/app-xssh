@@ -43,19 +43,23 @@ sub launchTerminal {
 sub showConfig {
   my ($xssh) = @_;
 
-  my $data = $xssh->readConfig();
+  my $sub = sub {
+    my ($sub,$prefix,$data) = @_;
 
-  my $configString = "";
-  for my $type ( reverse sort keys %{$data} ) {
-    for my $entity ( sort keys %{$data->{$type}} ) {
-      for my $key ( sort keys %{$data->{$type}->{$entity}} ) {
-        my $value =  $data->{$type}->{$entity}->{$key};
-        my $output = sprintf("%6s\t%20s\t%10s: %s\n", $type,$entity,$key,$value);
-        $configString = $configString . $output;
+    my $rv = "";
+    for my $key ( keys %$data ) {
+      if ( ref($data->{$key}) ) {
+        $rv .= "$prefix$key\n";
+        $rv .= $sub->($sub,"$prefix  ",$data->{$key});
+      } else {
+        $rv .= "$prefix$key: $data->{$key}\n";
       }
     }
-  }
-  return $configString;
+    return $rv;
+  };
+
+  my $data = $xssh->readConfig();
+  return $sub->($sub,"",$data);
 }
 
 sub main {
