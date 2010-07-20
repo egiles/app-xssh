@@ -20,9 +20,11 @@ sub getTerminalOptions {
     $options = { %$options, %{$config->{hosts}->{$host}} };
   }
 
-  if ( my $extra = delete $options->{extra} ) {
-    if ( my $details = $config->{extra}->{$extra} ) {
-      $options = { %$options, %{$config->{extra}->{$extra}} };
+  while ( my $value = delete $options->{extra} ) {
+    for my $extra ( split(/,/,$value) ) {
+      if ( my $details = $config->{extra}->{$extra} ) {
+        $options = { %$options, %{$config->{extra}->{$extra}} };
+      }
     }
   }
 
