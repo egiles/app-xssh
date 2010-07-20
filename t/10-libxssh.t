@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More 'no_plan';
+use Test::More;
 use File::Temp;
 
 # Load the script as a module
@@ -35,3 +35,5 @@ my $data2 = $xssh->readConfig();
 ok($data2, "read config file again");
 ok($data2->{location}->{key} eq "value", "Value retrieved");
 ok($data2->{location}->{deep}->{key} eq "value2", "Deep value retrieved");
+
+done_testing();

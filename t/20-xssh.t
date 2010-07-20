@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More 'no_plan';
+use Test::More;
 use File::Temp;
 
 use App::Xssh;
@@ -38,3 +38,5 @@ ok($str =~ m/foreground.*red/, "showconfig() contains similar data");
 
 # Just in case all the above isn't really testing anything
 ok(!($options->{foreground} eq "blue"), "control test");
+
+done_testing();

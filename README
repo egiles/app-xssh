@@ -3,14 +3,14 @@ DESCRIPTION
   App::Xssh
     Library to support reading and writing to the config file
 
-    bin/xssh
-      This program will allow you to ssh to a remote host inside a new
-      X Terminal window (like XTerm).  
+  bin/xssh
+    Program to allow you to ssh to a remote host inside a new
+    X Terminal window (like XTerm).  
 
 
 PREREQUISITES
 
-  App::Xssh requires at least perl 5.6.0 and these other modules and libraries:
+  App::Xssh requires at least perl 5.6.0 and these other modules:
 
     Config::General
     X11::Terminal

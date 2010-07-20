@@ -1,7 +1,7 @@
 use strict;
 use warnings;
 
-use Test::More 'no_plan';
+use Test::More;
 use File::Temp;
 
 use App::Xssh;
@@ -23,3 +23,5 @@ $xssh->addToConfig(["hosts","testhost","extra"],"local,trusted");
 my $options = getTerminalOptions($xssh,"testhost");
 ok($options->{foreground} eq "red", "foreground option");
 ok($options->{background} eq "red", "background option");
+
+done_testing();

@@ -5,7 +5,7 @@ use warnings;
 
 use Config::General;
 
-our $VERSION = 0.3;
+our $VERSION = 0.4;
 =head1 NAME
 
 App::Xssh - Encapsulates the configuration for xssh - using Config::General
