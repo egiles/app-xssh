@@ -1,11 +1,12 @@
 bin/xssh
 Changes
 lib/App/Xssh.pm
+lib/App/Xssh/Config.pm
 Makefile.PL
 MANIFEST
 README
-t/10-libxssh.t
-t/20-xssh.t
-t/21-xssh-multiple-extras.t
+t/10-libxsshconfig.t
+t/20-libxssh.t
+t/21-libxssh-multiple-extras.t
 t/podcoverage.t
 t/pod.t

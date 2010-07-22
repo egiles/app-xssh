@@ -4,36 +4,35 @@ use warnings;
 use Test::More;
 use File::Temp;
 
-use App::Xssh;
-
 # Load the script as a module
-require_ok("bin/xssh");
+use_ok("App::Xssh");
 
 # Create a temporary config file, and mess with it
 $ENV{HOME} = File::Temp::tempdir( CLEANUP => 1 );
 @ARGV = qw();
-ok(!main(), "run script - no params");
+ok(!App::Xssh::main(), "run script - no params");
 
 @ARGV = qw(--setextraattr extra profile red);
-ok(main(), "setextra profile");
+ok(App::Xssh::main(), "setextra profile");
 
 @ARGV = qw(--sethostattr testhost foreground red);
-ok(main(), "sethost foreground");
+ok(App::Xssh::main(), "sethost foreground");
 
 @ARGV = qw(--sethostattr DEFAULT background red);
-ok(main(), "sethost default background");
+ok(App::Xssh::main(), "sethost default background");
 @ARGV = qw(--sethostattr testhost extra extra);
-ok(main(), "sethost testhost extra");
+ok(App::Xssh::main(), "sethost testhost extra");
 
 # Test whether the config options taken hold
-my $xssh = App::Xssh->new();
-my $options = getTerminalOptions($xssh,"testhost");
+use App::Xssh::Config;
+my $config = App::Xssh::Config->new();
+my $options = App::Xssh::getTerminalOptions($config,"testhost");
 ok($options->{foreground} eq "red", "host option found");
 ok($options->{background} eq "red", "default option found");
 ok($options->{profile} eq "red", "extra option found");
 
 # test if showConfig returns the same information
-my $str = showConfig($xssh);
+my $str = $config->show($config);
 ok($str =~ m/foreground.*red/, "showconfig() contains similar data");
 
 # Just in case all the above isn't really testing anything
