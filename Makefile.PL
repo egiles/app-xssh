@@ -15,6 +15,5 @@ WriteMakefile(
                      },
     VERSION_FROM  => 'lib/App/Xssh.pm',
     EXE_FILES     => [ 'bin/xssh' ],
-    dist          => { COMPRESS=>'gzip', SUFFIX=>'gz' },
     clean         => { FILES=>'*stamp App-Xssh* debian/files debian/libapp-xssh-perl*' },
 );
