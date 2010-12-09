@@ -19,7 +19,8 @@ my $params = {
 };
 
 if ( $ExtUtils::MakeMaker::VERSION gt "6.46" ) {
-  $params->{META_MERGE} = { resources => { repository  => 'git://github.com/egiles/App-xssh.git' } };
+  my $url = 'git://github.com/egiles/app-xssh.git';
+  $params->{META_MERGE} = { resources => { repository  => $url } };
 }
 
 WriteMakefile(%$params);
