@@ -64,8 +64,9 @@ sub read {
   my ($self) = @_;
 
   if ( ! $self->{data} ) {
-    my $conf = $self->_openConfig();
-    $self->{data} = { $conf->getall() };
+    if ( my $conf = $self->_openConfig() ) {
+        $self->{data} = { $conf->getall() };
+    }
   }
 
   return $self->{data};
@@ -137,9 +138,10 @@ sub write{
   my ($self) = @_;
 
   my $data = $self->read();
-  my $conf = $self->_openConfig();
-  $conf->save_file(_configFilename(),$data);
-  return 1;
+  if ( my $conf = $self->_openConfig() ) {
+    $conf->save_file(_configFilename(),$data);
+    return 1;
+  }
 }
 
 =back
