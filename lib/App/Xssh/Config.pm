@@ -18,7 +18,7 @@ App::Xssh::Config - Encapsulates the configuration for xssh - using Config::Gene
 	
 	$config->add(["location","path","setting"],"value");
 
-  print $config->show();
+	print $config->show();
 	$config->write();
 =cut
 
@@ -101,6 +101,33 @@ sub add {
     $config = $config->{$key};
   }
   $config->{$attr} = $value;
+}
+
+=item delete($path)
+
+Deletes data from the existing config data - in memory.   
+
+=over
+
+=item $path
+
+An arrayref to the location of the atrribute to be deleted.
+
+=back
+=cut
+sub delete {
+  my ($self,$path) = @_;
+
+  my $attr = pop @$path;
+
+  my $config = $self->read();
+  for my $key ( @$path ) {
+    if ( ! defined($config->{$key}) ) {
+      $config->{$key} = {};
+    }
+    $config = $config->{$key};
+  }
+  delete $config->{$attr};
 }
 
 =item show()

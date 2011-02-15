@@ -10,12 +10,12 @@ use_ok("App::Xssh::Config");
 # Create a temporary config object, so we can mess with it
 my $xssh = App::Xssh::Config->new();
 
-# Create some extra attributes to define the FG/BG
-$xssh->add(["extra","local","foreground"],"red");
-$xssh->add(["extra","trusted","background"],"red");
+# Create some profile attributes to define the FG/BG
+$xssh->add(["profile","local","foreground"],"red");
+$xssh->add(["profile","trusted","background"],"red");
 
-# Create a host entry that references both extra attributes
-$xssh->add(["hosts","testhost","extra"],"local,trusted");
+# Create a host entry that references both profile attributes
+$xssh->add(["hosts","testhost","profile"],"local,trusted");
 
 # See that the attribute contains the FG and the BG options
 my $options = App::Xssh::getTerminalOptions($xssh,"testhost");

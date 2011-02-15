@@ -7,8 +7,9 @@ use 5.6.0;
 
 use App::Xssh;
 
-App::Xssh::main() unless caller;
-1;
+if ( !App::Xssh::main() ) {
+    exit 1;
+}
 
 __END__
 
@@ -19,8 +20,8 @@ xssh - A customisable X terminal emulator
 =head1 SYNOPSIS
 
 	xssh HOST
-	xssh --sethostattr HOST ATTRIBUTE VALUE
-	xssh --setextraattr NAME ATTRIBUTE VALUE
+	xssh --sethostopt HOST ATTRIBUTE VALUE
+	xssh --setprofileopt NAME ATTRIBUTE VALUE
 	xssh --showconfig
 
 =head1 DESCRIPTION
@@ -35,25 +36,25 @@ customised appearance.     For example, you may wish to configure 'prodserver' s
 First, you may like to define some defualts that will apply to all the remote
 servers you might log in to.
 
-	xssh --sethostattr DEFAULT scrollback 1024
-	xssh --sethostattr DEFAULT foreground blue
-	xssh --sethostattr DEFAULT background white
+	xssh --sethostopt DEFAULT scrollback 1024
+	xssh --sethostopt DEFAULT foreground blue
+	xssh --sethostopt DEFAULT background white
 
 Then you may like to override those defaults for some specific hosts.
 
-	xssh --sethostattr favourite foreground green
-	xssh --sethostattr favourite background black
-	xssh --sethostattr favourite geometry 128x70
+	xssh --sethostopt favourite foreground green
+	xssh --sethostopt favourite background black
+	xssh --sethostopt favourite geometry 128x70
 
 You may then get bored with setting all attributes for all hosts, so you
 might want to set up some "extra" attributes.
 
-	xssh --setextraattr prod foreground black
-	xssh --setextraattr prod background IndianRed
+	xssh --setprofileopt prod foreground black
+	xssh --setprofileopt prod background IndianRed
 
 You would then define which hosts take those extra attributes.
 
-	xssh --sethostattr important extra prod
+	xssh --sethostopt important extra prod
 
 FINALLY, you can use xssh to log in to those servers
 
