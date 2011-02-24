@@ -1,6 +1,13 @@
 Revision history for Perl extension App::Xssh
 
 
+0.5 2011-02-24 Rename (and deprecate) setextraattr & sethostattr command
+               line arguments
+
+               Refactor library layout
+
+               Much more thorough tests
+
 0.4 2010-07-21 Allow user to reference multiple 'extra' attribues for
                each host (closes rt 59401).
 
