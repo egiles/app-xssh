@@ -12,3 +12,4 @@ t/25-libxssh-upgrade.t
 t/30-xssh-commandline.t
 t/99-podcoverage.t
 t/99-pod.t
+t/99-version.t
