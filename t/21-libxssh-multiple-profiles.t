@@ -7,7 +7,9 @@ use File::Temp;
 use_ok("App::Xssh");
 use_ok("App::Xssh::Config");
 
-# Create a temporary config object, so we can mess with it
+# Arrange for a safe place to play
+$ENV{HOME} = File::Temp::tempdir( CLEANUP => 1 );
+
 my $xssh = App::Xssh::Config->new();
 
 # Create some profile attributes to define the FG/BG

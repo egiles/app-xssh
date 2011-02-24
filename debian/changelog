@@ -1,3 +1,15 @@
+libapp-xssh-perl (0.6) jaunty; urgency=low
+
+  * New upstream version
+
+ -- Evan Giles <egiles@cpan.org>  Thu, 26 Feb 2011 22:13:21 +1200
+
+libapp-xssh-perl (0.5) jaunty; urgency=low
+
+  * New upstream version
+
+ -- Evan Giles <egiles@cpan.org>  Thu, 24 Feb 2011 19:13:21 +1200
+
 libapp-xssh-perl (0.4) jaunty; urgency=low
 
   * New upstream version

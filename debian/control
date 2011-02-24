@@ -3,9 +3,9 @@ Section: perl
 Priority: optional
 Build-Depends: debhelper (>= 5)
 Build-Depends-Indep: perl (>= 5.6.10-12)
-Maintainer: Evan Giles <evan@catalyst.net.nz>
+Maintainer: Evan Giles <evan@giles.net.nz>
 Standards-Version: 3.8.0
-Homepage: http://search.cpan.org/dist/App-xssh/
+Homepage: http://search.cpan.org/dist/App-Xssh/
 
 Package: libapp-xssh-perl
 Architecture: all

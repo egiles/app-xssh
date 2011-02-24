@@ -1,11 +1,14 @@
 DESCRIPTION
 
-  App::Xssh
-    Library to support reading and writing to the config file
-
   bin/xssh
     Program to allow you to ssh to a remote host inside a new
     X Terminal window (like XTerm).  
+
+  App::Xssh
+    Library to support the xssh program
+
+  App::Xssh::Config
+    Library to support reading and writing to the config file
 
 
 PREREQUISITES
@@ -28,7 +31,7 @@ BUILDING/INSTALLING
 
 COPYRIGHT AND LICENCE
 
-  Copyright 2010 Evan Giles <egiles@cpan.org>.
+  Copyright 2010-2011 Evan Giles <egiles@cpan.org>.
 
   This program is free software; you can redistribute it
   and/or modify it under the same terms as Perl itself.

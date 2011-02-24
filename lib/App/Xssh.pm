@@ -9,7 +9,7 @@ use Getopt::Long;
 use Pod::Usage;
 use App::Xssh::Config;
 
-our $VERSION = 0.5;
+our $VERSION = 0.6;
 
 =head1 NAME
 
@@ -35,7 +35,9 @@ The deprecations are:
 
 =over
 
-=item Rename the 'extra' attribute to 'profile' (since v0.5)
+=item * 
+
+Rename the 'extra' attribute to 'profile' (since v0.5)
 
 =back
 =cut

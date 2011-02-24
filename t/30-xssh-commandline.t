@@ -13,12 +13,12 @@ use_ok("App::Xssh");
 # Arrange for a safe place to play
 $ENV{HOME} = File::Temp::tempdir( CLEANUP => 1 );
 
-exit_isnt_num("bin/xssh --crazy",0);
+exit_isnt_num("$^X bin/xssh --crazy",0);
 
-exit_isnt_num("bin/xssh --setprofileopt testprofile attribute",0);
-exit_is_num("bin/xssh --setprofileopt testprofile attribute red",0);
+exit_isnt_num("$^X bin/xssh --setprofileopt testprofile attribute",0);
+exit_is_num("$^X bin/xssh --setprofileopt testprofile attribute red",0);
 
-exit_isnt_num("bin/xssh --sethostopt testhost foreground",0);
-exit_is_num("bin/xssh --sethostopt testhost foreground red",0);
+exit_isnt_num("$^X bin/xssh --sethostopt testhost foreground",0);
+exit_is_num("$^X bin/xssh --sethostopt testhost foreground red",0);
 
 done_testing();

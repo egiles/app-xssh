@@ -7,6 +7,10 @@ use File::Temp;
 # Load the script as a module
 use_ok("App::Xssh::Config");
 
+# Arrange for a safe place to play
+my $dir = File::Temp::tempdir( CLEANUP => 1 );
+$ENV{HOME} = $dir;
+
 # Create an object
 my $xssh = App::Xssh::Config->new();
 ok($xssh, "Create Object");
@@ -14,11 +18,8 @@ ok($xssh, "Create Object");
 # Test (and modify) location of config file
 ok($xssh->_configFilename() =~ m/xsshrc/, "reasonable config filename");
 
-my $dir = File::Temp::tempdir( CLEANUP => 1 );
-$ENV{HOME} = $dir;
-
 SKIP: {
-  skip "Windows filenames don't play nicely as regular expressions" if $dir =~ m/\\/;
+  skip("Windows filenames don't play nicely as regular expressions",1) if $dir =~ m/\\/;
 
   ok($xssh->_configFilename() =~ m/$dir/, "config filename modified");
 }

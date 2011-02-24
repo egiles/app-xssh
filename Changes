@@ -1,6 +1,8 @@
 Revision history for Perl extension App::Xssh
 
 
+0.6 2011-02-26 Try to correct some CPAN testers problems 
+
 0.5 2011-02-24 Rename (and deprecate) setextraattr & sethostattr command
                line arguments
 
