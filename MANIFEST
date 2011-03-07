@@ -1,15 +1,18 @@
 bin/xssh
+Build.PL
+Makefile.PL
 Changes
 lib/App/Xssh.pm
 lib/App/Xssh/Config.pm
 Makefile.PL
-MANIFEST
+MANIFEST			This list of files
+META.yml
 README
 t/10-libxsshconfig.t
 t/20-libxssh.t
 t/21-libxssh-multiple-profiles.t
 t/25-libxssh-upgrade.t
 t/30-xssh-commandline.t
-t/99-podcoverage.t
 t/99-pod.t
+t/99-podcoverage.t
 t/99-version.t

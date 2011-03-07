@@ -1,6 +1,10 @@
 Makefile*
 *blib
+Makefile.PL
+META.yml
 *.tar.gz
 *stamp
 debian/files
 debian/libapp-xssh-perl*
+_build
+Build
