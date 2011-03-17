@@ -14,6 +14,7 @@ my $build = Module::Build->new (
         'X11::Terminal'   => 0.2,
         'Config::General' => 2.4,
         'Getopt::Long'    => 2.37,
+        'Moose'           => 1.09,
         'Pod::Usage'      => 1.35,
      },
      create_makefile_pl => 'traditional',
