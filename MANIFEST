@@ -12,6 +12,7 @@ t/10-libxsshconfig.t
 t/20-libxssh.t
 t/21-libxssh-multiple-profiles.t
 t/25-libxssh-upgrade.t
+t/26-libxssh-hostmatch.t
 t/30-xssh-commandline.t
 t/99-pod.t
 t/99-podcoverage.t

@@ -70,6 +70,24 @@ sub upgradeConfig {
   return $data;
 }
 
+sub _mergeOptions {
+  my ($data,$options,$moreOptions) = @_;
+
+  if ( $moreOptions ) {
+    $options = { %$options, %$moreOptions };
+  }
+
+  while ( my $value = delete $options->{profile} ) {
+    for my $profile ( split(/,/,$value) ) {
+      if ( my $details = $data->{profile}->{$profile} ) {
+        $options = { %$options, %{$data->{profile}->{$profile}} };
+      }
+    }
+  }
+
+  return $options;
+}
+
 =item getTerminalOptions()
 
 Reads the config data and determines the options that should be applied 
@@ -80,18 +98,21 @@ sub getTerminalOptions {
 
   my $data = upgradeConfig($config,$config->read());
 
-  my $options = $data->{hosts}->{DEFAULT} || {};
+  my $options = {};
 
-  if ( my $details = $data->{hosts}->{$host} ) {
-    $options = { %$options, %{$data->{hosts}->{$host}} };
+  # Begin with the DEFAULT options
+  $options = _mergeOptions($data,$options,$data->{hosts}->{DEFAULT});
+
+  # Add in any hosts that match
+  for my $hostmatch ( keys %{$data->{hosts}} ) {
+    if ( $host =~ m/^$hostmatch$/ ) {
+      $options = _mergeOptions($data,$options,$data->{hosts}->{$hostmatch});
+    }
   }
 
-  while ( my $value = delete $options->{profile} ) {
-    for my $profile ( split(/,/,$value) ) {
-      if ( my $details = $data->{profile}->{$profile} ) {
-        $options = { %$options, %{$data->{profile}->{$profile}} };
-      }
-    }
+  # Finish with the specified host
+  if ( my $details = $data->{hosts}->{$host} ) {
+    $options = _mergeOptions($data,$options,$data->{hosts}->{$host});
   }
 
   $options->{host} = $host;
