@@ -156,25 +156,24 @@ and calls the appropraite application behaviour.
 =back
 =cut
 sub main {
-  my $sethost;
-  my $setprofile;
-  my $showconfig;
+  my $options = {};
   GetOptions(
-    'sethostopt' => \$sethost,
-    'setprofileopt' => \$setprofile,
-    'showconfig' => \$showconfig,
+     $options,
+    'sethostopt',
+    'setprofileopt',
+    'showconfig'
   ) or pod2usage(1);
   
   my $config = App::Xssh::Config->new();
-  if ( $sethost ) {
+  if ( $options->{sethostopt} ) {
     setValue($config,"hosts",@ARGV);
     return 1;
   }
-  if ( $setprofile ) {
+  if ( $options->{setprofileopt} ) {
     setValue($config,"profile",@ARGV);
     return 1;
   }
-  if ( $showconfig ) {
+  if ( $options->{showconfig} ) {
     print $config->show($config);
     return 1;
   }
