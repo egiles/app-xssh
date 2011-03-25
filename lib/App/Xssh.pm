@@ -9,7 +9,7 @@ use Getopt::Long;
 use Pod::Usage;
 use App::Xssh::Config;
 
-our $VERSION = 0.6;
+our $VERSION = 0.7;
 
 =head1 NAME
 
