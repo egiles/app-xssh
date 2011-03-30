@@ -21,15 +21,18 @@ xssh - A customisable X terminal emulator
 
 	xssh HOST
 	xssh --sethostopt HOST OPTION VALUE
-	xssh --setprofileopt NAME OPTION VALUE
+	xssh --setprofileopt PROFILE OPTION VALUE
 	xssh --showconfig
 
 =head1 DESCRIPTION
 
-This program will allow you to ssh to a remote host inside a new X Terminal window (like XTerm).  
+This program will allow you to ssh to a remote host inside a new X Terminal
+window (like XTerm).  
 
-The idea here is that each time you ssh to a particular host, a terminal window will be launched with a consitent
-customised appearance.  For example, you may wish to configure 'prodserver' so that it the terminal window background is a redish colour - reminding you to tread very carefully...
+The idea here is that each time you ssh to a particular host, a terminal
+window will be launched with a consistent customised appearance.  For
+example, you may wish to configure 'prodserver' so the terminal window
+background is a redish colour - reminding you to tread very carefully...
 
 =head1 OPTIONS
 
@@ -39,17 +42,18 @@ customised appearance.  For example, you may wish to configure 'prodserver' so t
 
 Set or update a host option and save it to the config file.
 
-A host option defines an attribute that will always apply when you refer to that host.
+A host option defines an attribute that will always apply when you refer
+to that host.
 
-It is also possoble to define a regular expression for the HOST.  The option you define will
-apply to all hosts that match the regular expression.
+It is also possoble to define a regular expression for the HOST.  The
+option you define will apply to all hosts that match the regular expression.
 
-=item B<--setprofileopt>
+=item B<--setprofileopt> PROFILE OPTION VALUE
 
 Set or update a profile option and save it to the config file.
 
-Hosts can be defined with a profile option, in which case all options defined for that 
-profile will be applied to that host.
+Hosts can be defined with a profile option, in which case all options
+defined for that profile will be applied to that host.
 
 =item B<--showconfig>
 
@@ -59,8 +63,8 @@ Display the current configuration to STDOUT.
 
 =head1 EXAMPLES
 
-First, you may like to define some defualts that will apply to all the remote
-servers you might log in to.
+First, you may like to define some defualts that will apply to all the
+remote servers you might log in to.
 
 	xssh --sethostopt DEFAULT scrollback 1024
 	xssh --sethostopt DEFAULT foreground blue
@@ -104,7 +108,8 @@ FINALLY, you can use xssh to log in to those servers
 
 =item F<$HOME/.xsshrc>
 
-This file contains all the configuration for xssh.  It is in L<Config::General> format.
+This file contains all the configuration for xssh.  It is in
+L<Config::General> format.
 
 =back
 
