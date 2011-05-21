@@ -21,4 +21,7 @@ exit_is_num("$^X bin/xssh --setprofileopt testprofile attribute red",0);
 exit_isnt_num("$^X bin/xssh --sethostopt testhost foreground",0);
 exit_is_num("$^X bin/xssh --sethostopt testhost foreground red",0);
 
+exit_is_num("$^X bin/xssh --showconfig",0);
+exit_is_num("$^X bin/xssh --version",0);
+
 done_testing();

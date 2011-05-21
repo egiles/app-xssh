@@ -161,7 +161,8 @@ sub main {
      $options,
     'sethostopt',
     'setprofileopt',
-    'showconfig'
+    'showconfig',
+    'version'
   ) or pod2usage(1);
   
   my $config = App::Xssh::Config->new();
@@ -175,6 +176,10 @@ sub main {
   }
   if ( $options->{showconfig} ) {
     print $config->show($config);
+    return 1;
+  }
+  if ( $options->{version} ) {
+    print "Version: $VERSION\n";
     return 1;
   }
 

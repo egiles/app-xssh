@@ -1,5 +1,6 @@
 Revision history for Perl extension App::Xssh
 
+0.8 XXXX-XX-XX Add a '--version' option
 
 0.7 2011-03-25 Convert to Module::Build
 

@@ -23,6 +23,7 @@ xssh - A customisable X terminal emulator
 	xssh --sethostopt HOST OPTION VALUE
 	xssh --setprofileopt PROFILE OPTION VALUE
 	xssh --showconfig
+	xssh --version
 
 =head1 DESCRIPTION
 
@@ -58,6 +59,10 @@ defined for that profile will be applied to that host.
 =item B<--showconfig>
 
 Display the current configuration to STDOUT.
+
+=item B<--version>
+
+Display the current version string and exit.
 
 =back
 
