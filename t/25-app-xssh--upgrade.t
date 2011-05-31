@@ -9,6 +9,7 @@ use App::Xssh::Config;
 
 # Create a temporary config object, so we can mess with it
 $ENV{HOME} = File::Temp::tempdir( CLEANUP => 1 );
+my $xssh = App::Xssh->new();
 my $config = App::Xssh::Config->new();
 
 my $data = {
@@ -24,7 +25,7 @@ my $data = {
 		}
 	},
 };
-$data = App::Xssh::upgradeConfig($config,$data);
+$data = $xssh->upgradeConfig($config,$data);
 
 is($data->{hosts}->{monster}->{profile},"extra","extra host option copied");
 isnt($data->{hosts}->{monster}->{extra},"extra","extra host option removed");
