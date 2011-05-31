@@ -5,6 +5,7 @@ use warnings;
 
 use 5.6.0;
 
+use Moose;
 use Getopt::Long;
 use Pod::Usage;
 use UNIVERSAL::require;
@@ -20,8 +21,18 @@ App::Xssh - Encapsulates the application logic for xssh
 
 	use App::Xssh;
 	
-	App::Xssh::main();
+	my $main = App::Xssh->new();
+	$main->run();
 =cut
+
+=head1 METHODS
+
+=over
+
+=item new()
+
+Construcor, just used to provide an object with access to the methods
+=back
 
 =head1 FUNCTIONS
 
@@ -150,14 +161,14 @@ sub setValue {
   $config->write();
 }
 
-=item main()
+=item run()
 
 This is the entry point for the xssh script.  It parses the command line
 and calls the appropraite application behaviour.
 
 =back
 =cut
-sub main {
+sub run {
   my $options = {};
   GetOptions(
      $options,
