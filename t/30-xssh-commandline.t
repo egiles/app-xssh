@@ -7,8 +7,7 @@ use File::Temp;
 eval "use Test::Command";
 plan skip_all => "Test::Command required for testing command line" if $@;
 
-# Load the module
-use_ok("App::Xssh");
+use App::Xssh;
 
 # Arrange for a safe place to play
 $ENV{HOME} = File::Temp::tempdir( CLEANUP => 1 );

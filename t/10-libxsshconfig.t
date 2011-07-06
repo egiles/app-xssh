@@ -4,8 +4,7 @@ use warnings;
 use Test::More;
 use File::Temp;
 
-# Load the script as a module
-use_ok("App::Xssh::Config");
+use App::Xssh::Config;
 
 # Arrange for a safe place to play
 my $dir = File::Temp::tempdir( CLEANUP => 1 );
