@@ -23,7 +23,7 @@ my $build = Module::Build->new (
         'Getopt::Long'       => 2.37,
         'Moose'              => 1.09,
         'Pod::Usage'         => 1.35,
-        'UNIVERSAL::require' => 1.35,
+        'UNIVERSAL::require' => 0,
      },
      create_makefile_pl => 'traditional',
      meta_merge     => {
