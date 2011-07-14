@@ -7,6 +7,7 @@ use 5.6.0;
 
 use Getopt::Long;
 use Pod::Usage;
+use UNIVERSAL::require;
 use App::Xssh::Config;
 
 our $VERSION = 0.7;
@@ -128,9 +129,10 @@ sub launchTerminal {
 
   my $type = $options->{type} || "XTerm";
   my $class = "X11::Terminal::$type";
-  eval "require $class";
-  my $term = $class->new(%$options);
-  $term->launch();
+  if ( $class->require ) {
+      my $term = $class->new(%$options);
+      $term->launch();
+  }
 }
 
 =item setValue()
