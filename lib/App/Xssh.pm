@@ -57,9 +57,9 @@ sub upgradeConfig {
   my ($self,$config,$data) = @_;
 
   my $rename = sub {
-      my ($data,$src,$dst) = @_;
-      if ( my $value = delete $data->{$src->[0]}->{$src->[1]}->{$src->[2]} ) {
-        $data->{$dst->[0]}->{$dst->[1]}->{$dst->[2]} = $value;
+      my ($name,$src,$dst) = @_;
+      if ( my $value = delete $name->{$src->[0]}->{$src->[1]}->{$src->[2]} ) {
+        $name->{$dst->[0]}->{$dst->[1]}->{$dst->[2]} = $value;
         $config->add($dst,$value);
         $config->delete($src);
         $config->write();
@@ -142,7 +142,7 @@ sub launchTerminal {
   my $class = "X11::Terminal::$type";
   if ( $class->require ) {
       my $term = $class->new(%$options);
-      $term->launch();
+      return $term->launch();
   }
 }
 
@@ -158,7 +158,7 @@ sub setValue {
   }
 
   $config->add([$category,$name,$option],$value);
-  $config->write();
+  return $config->write();
 }
 
 =item run()
