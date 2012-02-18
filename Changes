@@ -1,6 +1,10 @@
 Revision history for Perl extension App::Xssh
 
-0.8 XXXX-XX-XX Add a '--version' option
+0.8   2012-02-18 (Evan Giles <EGILES@cpan.org>)
+  - Add a '--version' option
+  - More consitent testing
+  - Use 'UNIVERSAL::require instead of eval (PBP recommendation)
+  - Provide an OO interface to App::Xssh
 
 0.7 2011-03-25 Convert to Module::Build
 

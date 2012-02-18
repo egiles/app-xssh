@@ -11,7 +11,7 @@ use Pod::Usage;
 use UNIVERSAL::require;
 use App::Xssh::Config;
 
-our $VERSION = 0.7;
+our $VERSION = 0.8;
 
 =head1 NAME
 
@@ -32,6 +32,7 @@ App::Xssh - Encapsulates the application logic for xssh
 =item new()
 
 Construcor, just used to provide an object with access to the methods
+
 =back
 
 =head1 METHODS

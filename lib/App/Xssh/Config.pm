@@ -6,7 +6,7 @@ use warnings;
 use Moose;
 use Config::General;
 
-our $VERSION = 0.7;
+our $VERSION = 0.8;
 
 =head1 NAME
 
