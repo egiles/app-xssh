@@ -1,7 +1,8 @@
 Makefile*
 *blib
 Makefile.PL
-META.yml
+*META.yml
+*META.json
 *.tar.gz
 *stamp
 _build
