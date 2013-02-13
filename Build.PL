@@ -19,7 +19,10 @@ my $build = Module::Build->new (
         'UNIVERSAL::require' => 0,
      },
      create_makefile_pl => 'traditional',
-     configure_requires => { 'Module::Build' => 0.38 },
+     configure_requires => {
+        'Module::Build' => 0.38,
+        'version' => 0
+     },
      meta_merge     => {
        resources => {
          repository => "http://github.com/egiles/app-xssh",

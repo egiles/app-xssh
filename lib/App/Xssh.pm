@@ -10,8 +10,7 @@ use Getopt::Long;
 use Pod::Usage;
 use UNIVERSAL::require;
 use App::Xssh::Config;
-
-our $VERSION = 0.8;
+use version; our $VERSION = qv("v1.0.0");
 
 =head1 NAME
 
@@ -207,7 +206,7 @@ sub run {
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2010-2011 Evan Giles.
+Copyright 2010-2013 Evan Giles.
 
 This module is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
