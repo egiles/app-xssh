@@ -10,7 +10,7 @@ use Getopt::Long;
 use Pod::Usage;
 use UNIVERSAL::require;
 use App::Xssh::Config;
-use version; our $VERSION = qv("v1.1.0");
+use version; our $VERSION = qv("v2.0.0");
 
 =head1 NAME
 
@@ -32,11 +32,32 @@ App::Xssh - Encapsulates the application logic for xssh
 
 Construcor, just used to provide an object with access to the methods
 
-=back
+=item setConfig()
 
-=head1 METHODS
+Adds or updates values in the config file.  Values are defined by parsing a string 
+with the format C<path/path/path/value>.  For example C<hosts/hostname/foreground/red>.
 
-=over
+=cut
+sub setConfig {
+  my ($self, $data, $string) = @_;
+
+  my @list = split(/\//, $string);
+
+  # Wouldn't it be great to have a generic algorythum here??
+  if ( @list == 2 ) {
+    $data->{$list[0]} = $list[1];
+  } elsif ( @list == 3 ) {
+    $data->{$list[0]}->{$list[1]} = $list[2];
+  } elsif ( @list == 4 ) {
+    $data->{$list[0]}->{$list[1]}->{$list[2]} = $list[3];
+  } elsif ( @list == 5 ) {
+    $data->{$list[0]}->{$list[1]}->{$list[2]}->{$list[3]} = $list[4];
+  } else {
+    print("WTF\n");
+  }
+
+  return $data;
+}
 
 =item upgradeConfig()
 
@@ -56,27 +77,29 @@ Rename the 'extra' attribute to 'profile' (since v0.5)
 sub upgradeConfig {
   my ($self,$config,$data) = @_;
 
-  my $rename = sub {
-      my ($name,$src,$dst) = @_;
-      if ( my $value = delete $name->{$src->[0]}->{$src->[1]}->{$src->[2]} ) {
-        $name->{$dst->[0]}->{$dst->[1]}->{$dst->[2]} = $value;
-        $config->add($dst,$value);
-        $config->delete($src);
-        $config->write();
-      }
-  };
+  if ( ! $data->{configver} ) {
+    # This is really legacy stuff, before we ever tried to track the config version
+    my $rename = sub {
+        my ($name,$src,$dst) = @_;
+        if ( my $value = delete $name->{$src->[0]}->{$src->[1]}->{$src->[2]} ) {
+          $name->{$dst->[0]}->{$dst->[1]}->{$dst->[2]} = $value;
+        }
+    };
 
-  # Rename the 'extra' attribute to 'profile'
-  for my $host ( keys %{$data->{hosts} } ) {
-    $rename->($data,["hosts",$host,"extra"],["hosts",$host,"profile"]);
-  }
-  if ( $data->{extra} ) {
-    my $extra = $data->{extra};
-    for my $name ( keys %$extra ) {
-      for my $option ( keys %{$extra->{$name}} ) {
-        $rename->($data,["extra",$name,$option],["profile",$name,$option]);
+    # Rename the 'extra' attribute to 'profile'
+    for my $host ( keys %{$data->{hosts} } ) {
+      $rename->($data,["hosts",$host,"extra"],["hosts",$host,"profile"]);
+    }
+    if ( $data->{extra} ) {
+      my $extra = $data->{extra};
+      for my $name ( keys %$extra ) {
+        for my $option ( keys %{$extra->{$name}} ) {
+          $rename->($data,["extra",$name,$option],["profile",$name,$option]);
+        }
       }
     }
+    $data->{configver} = 20190920;
+    $config->write($data);
   }
 
   return $data;
@@ -106,9 +129,7 @@ Reads the config data and determines the options that should be applied
 for a given host
 =cut
 sub getTerminalOptions {
-  my ($self,$config,$host) = @_;
-
-  my $data = $self->upgradeConfig($config,$config->read());
+  my ($self, $data, $host) = @_;
 
   my $options = {};
 
@@ -146,21 +167,6 @@ sub launchTerminal {
   }
 }
 
-=item setValue()
-
-Sets a value in the config, and writes the config out
-=cut
-sub setValue {
-  my ($self,$config,$category,$name,$option,$value) = @_;
-
-  if ( ! ($name && $option && $value) ) {
-    pod2usage(1);
-  }
-
-  $config->add([$category,$name,$option],$value);
-  return $config->write();
-}
-
 =item run()
 
 This is the entry point for the xssh script.  It parses the command line
@@ -174,23 +180,21 @@ sub run {
   my $options = {};
   GetOptions(
      $options,
-    'sethostopt',
-    'setprofileopt',
+    'setconfig',
     'showconfig',
     'version'
   ) or pod2usage(1);
   
   my $config = App::Xssh::Config->new();
-  if ( $options->{sethostopt} ) {
-    $self->setValue($config,"hosts",@ARGV);
-    return 1;
-  }
-  if ( $options->{setprofileopt} ) {
-    $self->setValue($config,"profile",@ARGV);
+  my $data = $self->upgradeConfig($config,$config->read());
+
+  if ( $options->{setconfig} ) {
+    $data = $self->setConfig($data, @ARGV);
+    $config->write($data);
     return 1;
   }
   if ( $options->{showconfig} ) {
-    print $config->show($config);
+    print $config->show();
     return 1;
   }
   if ( $options->{version} ) {
@@ -199,7 +203,7 @@ sub run {
   }
 
   if ( my ($host) = @ARGV ) {
-    my $options = $self->getTerminalOptions($config,$host);
+    my $options = $self->getTerminalOptions($data,$host);
     return $self->launchTerminal($options);;
   }
 }

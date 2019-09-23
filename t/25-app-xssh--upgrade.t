@@ -7,6 +7,7 @@ use File::Temp;
 use App::Xssh;
 use App::Xssh::Config;
 
+# GIVEN
 # Create a temporary config object, so we can mess with it
 $ENV{HOME} = File::Temp::tempdir( CLEANUP => 1 );
 my $xssh = App::Xssh->new();
@@ -25,8 +26,11 @@ my $data = {
 		}
 	},
 };
+
+# WHEN
 $data = $xssh->upgradeConfig($config,$data);
 
+# THEN
 is($data->{hosts}->{monster}->{profile},"extra","extra host option copied");
 isnt($data->{hosts}->{monster}->{extra},"extra","extra host option removed");
 
@@ -34,5 +38,6 @@ is($data->{profile}->{name}->{option},"value","extra profile option copied");
 isnt($data->{extra}->{name}->{option},"value","extra profile option removed");
 
 is($data->{hosts}->{monster}->{option},"value","some things don't change");
+ok($data->{configver},"stored a config version value");
 
 done_testing();

@@ -23,20 +23,17 @@ SKIP: {
   ok($xssh->_configFilename() =~ m/$dir/, "config filename modified");
 }
 
-# try reading and changing the config data
+# Given
 my $data = $xssh->read();
 ok($data, "read empty config file");
-ok($xssh->add(["location","key"],"value1"), "Modified config data");
-ok($xssh->add(["location","deep","key"],"value2"), "Modified config again");
-ok($xssh->add(["location","deep","deleteme"],"value3"), "Modified config again");
-ok($xssh->delete(["location","deep","deleteme"]), "deleted config value");
+$data->{location}->{key} = "value";
+ok($xssh->write($data), "Write config out");
 
-# Save and reread the config data
-ok($xssh->write(), "Write config out");
+# When
 my $data2 = $xssh->read();
+
+# Then
 ok($data2, "read config file again");
-ok($data2->{location}->{key} eq "value1", "Value retrieved");
-ok($data2->{location}->{deep}->{key} eq "value2", "Deep value retrieved");
-ok(!defined($data2->{location}->{deep}->{deleteme}), "Deleted value removed");
+ok($data2->{location}->{key} eq "value", "Value retrieved");
 
 done_testing();

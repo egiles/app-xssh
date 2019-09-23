@@ -1,5 +1,9 @@
 Revision history for Perl extension App::Xssh
 
+v2.0.0 2019-XX-XX (Evan Giles <egiles@cpan.org>)
+  - Change the interface (use setconfig rather than setprofile & sethost)
+  - store a version string in the config
+
 v1.1.0 2019-06-26 (Evan Giles <EGILES@cpan.org>)
   - Update to use Test::Compile's OO testing
   - Update copyright

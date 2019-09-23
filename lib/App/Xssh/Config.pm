@@ -6,7 +6,7 @@ use warnings;
 use Moose;
 use Config::General;
 
-use version; our $VERSION = qv("v1.1.0");
+use version; our $VERSION = qv("v2.0.0");
 
 =head1 NAME
 
@@ -19,10 +19,8 @@ App::Xssh::Config - Encapsulates the configuration for xssh - using Config::Gene
 	my $config = App::Xssh::Config->new();
 	my $data = $config->read();
 	
-	$config->add(["location","path","setting"],"value");
-
 	print $config->show();
-	$config->write();
+	$config->write($data);
 =cut
 
 =head1 METHODS
@@ -71,64 +69,6 @@ sub read {
   return $self->{data};
 }
 
-=item add($path,$value)
-
-Adds a data to the existing config data - in memory.   
-
-=over
-
-=item $path
-
-An arrayref to the location of the atrribute to be stored.
-
-=item $value
-
-A string to be stored at that location.
-
-=back
-=cut
-sub add {
-  my ($self,$path,$value) = @_;
-
-  my $attr = pop @$path;
-
-  my $config = $self->read();
-  for my $key ( @$path ) {
-    if ( ! defined($config->{$key}) ) {
-      $config->{$key} = {};
-    }
-    $config = $config->{$key};
-  }
-  $config->{$attr} = $value;
-}
-
-=item delete($path)
-
-Deletes data from the existing config data - in memory.   
-
-=over
-
-=item $path
-
-An arrayref to the location of the atrribute to be deleted.
-
-=back
-=cut
-sub delete {
-  my ($self,$path) = @_;
-
-  my $attr = pop @$path;
-
-  my $config = $self->read();
-  for my $key ( @$path ) {
-    if ( ! defined($config->{$key}) ) {
-      $config->{$key} = {};
-    }
-    $config = $config->{$key};
-  }
-  delete $config->{$attr};
-}
-
 =item show()
 
 Wanders through the config data, and returns a string to describe the
@@ -161,9 +101,8 @@ sub show {
 Writes the current config data back to a config file on disk.  Completely overwrites the existinng file.
 =cut
 sub write{
-  my ($self) = @_;
+  my ($self, $data) = @_;
 
-  my $data = $self->read();
   if ( my $conf = $self->_openConfig() ) {
     $conf->save_file(_configFilename(),$data);
     return 1;
