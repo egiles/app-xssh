@@ -113,7 +113,7 @@ sub write{
 
 =head1 COPYRIGHT & LICENSE
 
-Copyright 2010-2019 Evan Giles.
+Copyright 2010-2020 Evan Giles.
 
 This module is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
